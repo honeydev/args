@@ -7,7 +7,7 @@ Agreements:
 ```python
     Methods: 
 
-        def methodname() - public
-        def _methodname() - protected
-        def __methodname() - private
+        def methodname() # public
+        def _methodname() # protected
+        def __methodname() # private
 ```
