@@ -6,7 +6,7 @@ class Args:
     args = []
     """
     dictonary
-    :key - string, schema symbok
+    :key - string, schema symbol
     :value - ArgumentMarshaler instance
     """
     marshalers = {}
@@ -50,4 +50,3 @@ class Args:
 
     def cardinality(self) -> int:
         return len(self.argsFound)
-
