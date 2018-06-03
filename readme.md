@@ -7,14 +7,7 @@ Agreements:
 ```python
     Methods: 
 
-<<<<<<< HEAD
-        def methodname(): # - public
-        def _methodname(): # - protected
-        def __methodname() # private
-```
-=======
         def methodname(): # public
         def _methodname(): # protected
         def __methodname(): # private
 ```
->>>>>>> 08cccbfb8f86b93cc06e3590bdfc843e7fb585a9
