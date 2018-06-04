@@ -39,5 +39,6 @@ class ArgsExceptionTest(unittest.TestCase):
         argsException = ArgsException(ArgsException.ErrorCode.MISSING_DOUBLE, "x", 'None')
         self.assertEquals("Could not find double parameter for -x.", argsException.errorMessage())
 
+
 if __name__ == '__main__':
     unittest.main()

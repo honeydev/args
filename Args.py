@@ -1,4 +1,5 @@
 import ArgsException
+from marshalers.BooleanArgumentMarshaler import BooleanArgumentMarshaler
 
 class Args:
 
@@ -40,14 +41,20 @@ class Args:
 
         if (len(elementTail) == 0):
             self.marshalers[elementId] = BooleanArgumentMarshaler()
+        elif (elementTail == "*"):
+            self.marshalers[elementId] = StringArgumentMarshaler()
+        elif (elementTail == "#"):
+            self.marshalers[elementId] = IntegerArgumentMarshaler()
+        elif (elementTail == "##"):
+            self.marshalers[elementId] = DoubleArgumentMarshaler()
         else:
-            pass
+            raise ArgsException(ArgsException.ErrorCode.INVALID_FORMAT, elementId, elementTail)
     '''
     raise ArgsException
     '''
     def __validateSchemaElementId(self, elementId: str) -> None:
         if (not elementId.isAlpha() or len(elementId) != 1):
-            raise ArgsException
+            raise ArgsException(ArgsException.ErrorCode.INVALID_ARGUMENT_NAME, elementId, None)
 
     def __parseArguments(self):
         pass
