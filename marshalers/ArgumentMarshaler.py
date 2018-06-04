@@ -1,0 +1,2 @@
+class ArgumentMarshaler:
+    pass

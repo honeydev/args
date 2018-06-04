@@ -10,12 +10,12 @@ class ArgsException(Exception):
     def __init__(
         self, 
         errorCode: ErrorCode,
+        errorArgumentId: str,
         errorParameter: str,
-        errorArgumentId: str
         ) -> None:
         super().__init__()
         self.errorCode = errorCode
-        self.errorParametr = errorParameter
+        self.errorParameter = errorParameter
         self.errorArgumentId = errorArgumentId
 
     def getErrorArgumentId(self) -> str:
@@ -42,7 +42,16 @@ class ArgsException(Exception):
         if (self.errorCode == ErrorCode.OK):
             raise Exception("TILT: Should not get here.")
         elif (self.errorCode == ErrorCode.UNEXPECTED_ARGUMENT):
-            return "Argument -" + self.errorParameter + " unexpected. " + self.errorArgumentId
+            return "Argument -{} unexpected.".format(self.errorArgumentId)
+        elif (self.errorCode == ErrorCode.MISSING_STRING):
+            return "Could not find string parameter for -{}.".format(self.errorArgumentId)
+        elif (self.errorCode == ErrorCode.INVALID_INTEGER):
+            return "Argument -{} expects an integer but was '{}'.".format(self.errorArgumentId, self.errorParameter)
+        elif (self.errorCode == ErrorCode.MISSING_INTEGER):
+            return "Could not find integer parameter for -{}.".format(self.errorArgumentId)
+        elif (self.errorCode == ErrorCode.INVALID_DOUBLE):
+            return "Argument -{} expects a double but was '{}'.".format(self.errorArgumentId, self.errorParameter)
+        elif (self.errorCode == ErrorCode.MISSING_DOUBLE):
+            return "Could not find double parameter for -{}.".format(self.errorArgumentId)
         else:
             return ""
-

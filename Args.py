@@ -15,11 +15,10 @@ class Args:
     """
     argsFound = {}
 
-    def __init__(self, schema: str, args: str) -> None:
+    def __init__(self, schema: str, args: list) -> None:
         self.schema = schema
-        self.args = args.split(' ')
+        self.args = args
         self.__parse()
-        
     '''
     raise ArgsException
     '''
@@ -38,15 +37,20 @@ class Args:
         elementId = element[0]
         elementTail = element[1:]
         self.__validateSchemaElementId(elementId)
+
+        if (len(elementTail) == 0):
+            self.marshalers[elementId] = BooleanArgumentMarshaler()
+        else:
+            pass
     '''
     raise ArgsException
     '''
     def __validateSchemaElementId(self, elementId: str) -> None:
-        if (!elementId.isAlpha() or len(elementId) != 1):
+        if (not elementId.isAlpha() or len(elementId) != 1):
             raise ArgsException
 
     def __parseArguments(self):
-        None
+        pass
 
     def cardinality(self) -> int:
         return len(self.argsFound)
