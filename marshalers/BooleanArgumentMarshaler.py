@@ -1,12 +1,11 @@
-from ArgumentMarshaler import ArgumentMarshaler
+from .ArgumentMarshaler import ArgumentMarshaler
 
 class BooleanArgumentMarshaler(ArgumentMarshaler):
         
     booleanValue = False
 
-    def set(s: str):
+    def set(self, s: str):
         self.booleanValue = True
 
-    def get() -> bool:
-        self.booleanValue
-
+    def get(self) -> bool:
+        return self.booleanValue
