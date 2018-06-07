@@ -12,6 +12,7 @@ class ArgsTest(unittest.TestCase):
     '''
     def testWithNoSchemaButWithOneArgument(self):
         try:
+            print('testWithNoSchemaButWithOneArgument')
             Args("", ["-x"])
             self.fail("Expect ArgsException in testWithNoSchemaButWithOneArgument")
         except ArgsException as e:
@@ -25,6 +26,7 @@ class ArgsTest(unittest.TestCase):
     '''
     def testWithNoSchemaButWithMultipleArguments(self):
         try:
+            print('testWithNoSchemaButWithMultipleArguments')
             Args("", ["-x", "-y"])
             self.fail("Expect ArgsException in testWithNoSchemaButWithMultipleArguments")
         except ArgsException as e:
@@ -38,6 +40,7 @@ class ArgsTest(unittest.TestCase):
     '''
     def testNonLetterSchema(self):
         try:
+            print('testNonLetterSchema')
             Args("*", [])
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
@@ -52,6 +55,7 @@ class ArgsTest(unittest.TestCase):
     '''
     def testInvalidArgumentFormat(self):
         try:
+            print('testInvalidArgumentFormat')
             Args("f~", [])
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
@@ -66,6 +70,12 @@ class ArgsTest(unittest.TestCase):
         self.assertEqual(1, args.cardinality())
         self.assertEqual(True, args.getBoolean("x"))
 
+    def testSimpleStringPresent(self):
+        print('testSimpleStringPresent')
+        args = Args("x*", ["-x", "param"])
+        self.assertEqual(1, args.cardinality())
+        self.assertTrue(args.has('x'))
+        self.assertEqual("param", args.getString("x"))
 
 if __name__ == '__main__':
     unittest.main()

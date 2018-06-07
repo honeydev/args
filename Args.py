@@ -4,22 +4,12 @@ from marshalers.StringArgumentMarshaler import StringArgumentMarshaler
 
 class Args:
 
-    schema = ""
-    args = []
-    """
-    dictonary
-    :key - string, schema symbol
-    :value - ArgumentMarshaler instance
-    """
-    marshalers = {}
-    """
-    set contain founded arguments
-    """
-    argsFound = set({})
-
-    currentArgument = None
-
     def __init__(self, schema: str, args: list) -> None:
+        self.schema = ""
+        self.args = []
+        self.marshalers = {}
+        self.argsFound = set({})
+        self.currentArgument = None
         self.schema = schema
         self.args = args
         self.__parse()
@@ -41,6 +31,7 @@ class Args:
     raise ArgsException
     '''
     def __parseSchemaElement(self, element: str):
+        print('setMarshaler')
         elementId = element[0]
         elementTail = element[1:]
         self.__validateSchemaElementId(elementId)
@@ -64,7 +55,9 @@ class Args:
     raise ArgsException
     '''
     def __parseArguments(self) -> None:
+        print('arguments', self.args)
         for self.currentArgument in self.args:
+            print('current', self.currentArgument)
             self.__parseArgument(self.currentArgument)
     '''
     raise ArgsException
@@ -84,7 +77,7 @@ class Args:
     raise ArgsException
     '''
     def __parseElement(self, argChar: str) -> None:
-        print('schema', self.schema, 'args', self.marshalers)
+        print('schema', self.schema, 'marshalers', self.marshalers)
         if (self.__setArgument(argChar)):
             self.argsFound.update(argChar)
         else:
@@ -119,8 +112,17 @@ class Args:
 
         return boolean
 
-    def getString(arg: str) -> str:
-        pass
+    def getString(self, arg: str) -> str:
+        print(self.marshalers)
+        argumentMarshaler = self.marshalers.get(arg)
+        print('argumentMarshaler', argumentMarshaler)
+        print('stringAM', self.marshalers.get('x').get())
+        return argumentMarshaler.get()
 
-    def has(arg: str) -> bool:
+        # try:
+        #     return "" if argumentMarshaler == None else argumentMarshaler.get()
+        # except Exception:
+        #     return ""
+
+    def has(self, arg: str) -> bool:
         return arg in self.argsFound;
