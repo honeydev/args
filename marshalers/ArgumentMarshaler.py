@@ -5,7 +5,7 @@ class ArgumentMarshaler:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def set(currentArgument) -> None: pass
+    def set(self, argIterator) -> None: pass
 
     @abstractmethod
-    def get(): pass
+    def get(self): pass

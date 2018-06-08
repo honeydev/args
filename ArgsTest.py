@@ -66,6 +66,7 @@ class ArgsTest(unittest.TestCase):
             self.assertEqual("f", e.getErrorArgumentId())
 
     def testSimpleBooleanPresent(self):
+        print('testSimpleBooleanPresent')
         args = Args("x", ["-x"])
         self.assertEqual(1, args.cardinality())
         self.assertEqual(True, args.getBoolean("x"))
@@ -76,6 +77,14 @@ class ArgsTest(unittest.TestCase):
         self.assertEqual(1, args.cardinality())
         self.assertTrue(args.has('x'))
         self.assertEqual("param", args.getString("x"))
+
+    def testMissingStringArgument(self):
+        try:
+            args = Args("x*", ["-x"])
+            print('missing arg', args.getString("x"))
+            self.fail("Args constructor should have thrown exception")
+        except ArgsException as e:
+            self.assertEqual(ArgsException.ErrorCode.MISSING_STRING, e.getErrorCode())
 
 if __name__ == '__main__':
     unittest.main()

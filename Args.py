@@ -56,13 +56,26 @@ class Args:
     '''
     def __parseArguments(self) -> None:
         print('arguments', self.args)
-        for self.currentArgument in self.args:
-            print('current', self.currentArgument)
-            self.__parseArgument(self.currentArgument)
+
+        if (len(self.args) == 0): 
+            return None
+
+        try:
+            self.currentArgument = iter(self.args)
+
+            while (True):
+                self.__parseArgument(next(self.currentArgument))
+        except StopIteration:
+            pass
+
+        # for self.currentArgument in self.args:
+        #     print('current', self.currentArgument)
+        #     self.__parseArgument(self.currentArgument)
     '''
     raise ArgsException
     '''
     def __parseArgument(self, arg: str) -> None:
+        print('parse argument', arg)
         if (arg.startswith("-")):
             self.__parseElements(arg)
     '''
@@ -86,12 +99,15 @@ class Args:
     raise ArgsException
     '''
     def __setArgument(self, argChar: str) -> bool:
+        print('set argument', argChar)
         if (argChar in self.marshalers):
+            print('argument in marshalers')
             argumentMarshaler = self.marshalers[argChar]
         else:
             return False
 
         try:
+            print('try set in marsaler')
             argumentMarshaler.set(self.currentArgument)
             return True
         except ArgsException as e:
