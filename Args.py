@@ -1,6 +1,8 @@
-from ArgsException import ArgsException
 from marshalers.BooleanArgumentMarshaler import BooleanArgumentMarshaler
 from marshalers.StringArgumentMarshaler import StringArgumentMarshaler
+from marshalers.IntegerArgumentMarshaler import IntegerArgumentMarshaler
+from marshalers.DoubleArgumentMarshaler import DoubleArgumentMarshaler
+from ArgsException import ArgsException
 
 class Args:
 
@@ -25,13 +27,11 @@ class Args:
         for element in self.schema.split(","):
             if len(element) > 0:
                 self.__parseSchemaElement(element.strip())
-
         return True
     '''
     raise ArgsException
     '''
     def __parseSchemaElement(self, element: str):
-        print('setMarshaler')
         elementId = element[0]
         elementTail = element[1:]
         self.__validateSchemaElementId(elementId)
@@ -55,27 +55,23 @@ class Args:
     raise ArgsException
     '''
     def __parseArguments(self) -> None:
-        print('arguments', self.args)
-
         if (len(self.args) == 0): 
             return None
 
         try:
             self.currentArgument = iter(self.args)
-
             while (True):
                 self.__parseArgument(next(self.currentArgument))
         except StopIteration:
             pass
 
         # for self.currentArgument in self.args:
-        #     print('current', self.currentArgument)
+
         #     self.__parseArgument(self.currentArgument)
     '''
     raise ArgsException
     '''
     def __parseArgument(self, arg: str) -> None:
-        print('parse argument', arg)
         if (arg.startswith("-")):
             self.__parseElements(arg)
     '''
@@ -90,7 +86,6 @@ class Args:
     raise ArgsException
     '''
     def __parseElement(self, argChar: str) -> None:
-        print('schema', self.schema, 'marshalers', self.marshalers)
         if (self.__setArgument(argChar)):
             self.argsFound.update(argChar)
         else:
@@ -99,15 +94,13 @@ class Args:
     raise ArgsException
     '''
     def __setArgument(self, argChar: str) -> bool:
-        print('set argument', argChar)
         if (argChar in self.marshalers):
-            print('argument in marshalers')
             argumentMarshaler = self.marshalers[argChar]
         else:
             return False
 
         try:
-            print('try set in marsaler')
+
             argumentMarshaler.set(self.currentArgument)
             return True
         except ArgsException as e:
@@ -129,16 +122,29 @@ class Args:
         return boolean
 
     def getString(self, arg: str) -> str:
-        print(self.marshalers)
         argumentMarshaler = self.marshalers.get(arg)
-        print('argumentMarshaler', argumentMarshaler)
-        print('stringAM', self.marshalers.get('x').get())
-        return argumentMarshaler.get()
 
-        # try:
-        #     return "" if argumentMarshaler == None else argumentMarshaler.get()
-        # except Exception:
-        #     return ""
+        try:
+            return "" if argumentMarshaler is None else argumentMarshaler.get()
+        except Exception:
+            return ""
+
+    def getInt(self, arg: str) -> int:
+        argumentMarshaler = self.marshalers.get(arg)
+
+        try:
+            return 0 if argumentMarshaler is None else argumentMarshaler.get()
+        except Exception:
+            return 0
+
+    def getDouble(self, arg: str) -> float:
+        argumentMarshaler = self.marshalers.get(arg)
+
+        try:
+            return 0 if argumentMarshaler is None else argumentMarshaler.get()
+        except Exception:
+            return 0.0
 
     def has(self, arg: str) -> bool:
         return arg in self.argsFound;
+

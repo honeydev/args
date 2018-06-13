@@ -1,13 +1,16 @@
 from .ArgumentMarshaler import ArgumentMarshaler
-from ..ArgsException import ArgsException
-
+from ArgsException import ArgsException
 
 class StringArgumentMarshaler(ArgumentMarshaler):
 
-    stringValue = ""
+    def __init__(self):
+        self.stringValue = ""
 
     def set(self, argIterator) -> None:
-        self.stringValue = next(argIterator)
-
+        try:
+            self.stringValue = next(argIterator)
+        except StopIteration:
+            raise ArgsException(ArgsException.ErrorCode.MISSING_STRING, None, None)
+            
     def get(self) -> None:
         return self.stringValue

@@ -12,7 +12,6 @@ class ArgsTest(unittest.TestCase):
     '''
     def testWithNoSchemaButWithOneArgument(self):
         try:
-            print('testWithNoSchemaButWithOneArgument')
             Args("", ["-x"])
             self.fail("Expect ArgsException in testWithNoSchemaButWithOneArgument")
         except ArgsException as e:
@@ -26,7 +25,6 @@ class ArgsTest(unittest.TestCase):
     '''
     def testWithNoSchemaButWithMultipleArguments(self):
         try:
-            print('testWithNoSchemaButWithMultipleArguments')
             Args("", ["-x", "-y"])
             self.fail("Expect ArgsException in testWithNoSchemaButWithMultipleArguments")
         except ArgsException as e:
@@ -40,7 +38,6 @@ class ArgsTest(unittest.TestCase):
     '''
     def testNonLetterSchema(self):
         try:
-            print('testNonLetterSchema')
             Args("*", [])
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
@@ -55,7 +52,6 @@ class ArgsTest(unittest.TestCase):
     '''
     def testInvalidArgumentFormat(self):
         try:
-            print('testInvalidArgumentFormat')
             Args("f~", [])
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
@@ -66,13 +62,11 @@ class ArgsTest(unittest.TestCase):
             self.assertEqual("f", e.getErrorArgumentId())
 
     def testSimpleBooleanPresent(self):
-        print('testSimpleBooleanPresent')
         args = Args("x", ["-x"])
         self.assertEqual(1, args.cardinality())
         self.assertEqual(True, args.getBoolean("x"))
 
     def testSimpleStringPresent(self):
-        print('testSimpleStringPresent')
         args = Args("x*", ["-x", "param"])
         self.assertEqual(1, args.cardinality())
         self.assertTrue(args.has('x'))
@@ -81,10 +75,61 @@ class ArgsTest(unittest.TestCase):
     def testMissingStringArgument(self):
         try:
             args = Args("x*", ["-x"])
-            print('missing arg', args.getString("x"))
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
             self.assertEqual(ArgsException.ErrorCode.MISSING_STRING, e.getErrorCode())
+            self.assertEqual("x", e.getErrorArgumentId())
+
+    def testSpacesInFormat(self):
+        args = Args("x, y", ["-xy"])
+        self.assertEqual(2, args.cardinality())
+        self.assertTrue(args.has("x"))
+        self.assertTrue(args.has("y"))
+
+    def testSimpeIntPresent(self):
+        args = Args("x#", ["-x", 42])
+        self.assertEqual(1, args.cardinality())
+        self.assertTrue(args.has('x'))
+        self.assertEqual(42, args.getInt('x'))
+
+    def testInvalidInteger(self):
+        try:
+            Args("x#", ["-x", "Forty two"])
+            self.fail("Args constructor should have thrown exception")
+        except ArgsException as e:
+            self.assertEqual(ArgsException.ErrorCode.INVALID_INTEGER, e.getErrorCode())
+            self.assertEqual("x", e.getErrorArgumentId())
+            self.assertEqual("Forty two", e.getErrorParameter())
+
+    def testMissingInteger(self):
+        try:
+            Args("x#", ["-x"])
+            self.fail("Args constructor should have thrown exception")
+        except ArgsException as e:
+            self.assertEqual(ArgsException.ErrorCode.MISSING_INTEGER, e.getErrorCode())
+            self.assertEqual("x", e.getErrorArgumentId())
+
+    def testSimpleDoublePresent(self):
+        args = Args("x##", ["-x", "42.3"])
+        self.assertEqual(1, args.cardinality())
+        self.assertTrue(args.has('x'))
+        self.assertEqual(42.3, args.getDouble("x"))
+
+    def testInvalidDouble(self):
+        try:
+            Args("x##", ["-x", "Forty two"])
+            self.fail("Args constructor should have thrown exception")
+        except ArgsException as e:
+            self.assertEqual(ArgsException.ErrorCode.INVALID_DOUBLE, e.getErrorCode())
+
+    def testMissingDouble(self):
+        try:
+            Args("x##", ["-x"])
+            self.fail("Args constructor should have thrown exception")
+        except ArgsException as e:
+            self.assertEqual(ArgsException.ErrorCode.MISSING_DOUBLE, e.getErrorCode())
+            self.assertEqual("x", e.getErrorArgumentId())
+
 
 if __name__ == '__main__':
     unittest.main()

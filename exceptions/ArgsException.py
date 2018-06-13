@@ -1,22 +1,19 @@
 from ErrorCode import ErrorCode
 
 class ArgsException(Exception):
-    #why \0 ???
-    errorArgumentId = "\0"
-    errorParameter = "TILT"
-    errorCode = ErrorCode.OK
+
     ErrorCode = ErrorCode
     
     def __init__(
         self, 
-        errorCode: ErrorCode,
-        errorArgumentId: str,
-        errorParameter: str,
+        errorCode: ErrorCode = ErrorCode.OK,
+        errorArgumentId: str = "\0",
+        errorParameter: str = "TILT",
         ) -> None:
         super().__init__()
         self.errorCode = errorCode
-        self.errorParameter = errorParameter
         self.errorArgumentId = errorArgumentId
+        self.errorParameter = errorParameter
 
     def getErrorArgumentId(self) -> str:
         return self.errorArgumentId
@@ -25,7 +22,7 @@ class ArgsException(Exception):
         self.errorArgumentId = errorArgumentId
 
     def getErrorParameter(self) -> str:
-        return errorParameter
+        return self.errorParameter
 
     def setErrorParameter(self, errorParameter: str) -> None:
         self.errorParameter = errorParameter

@@ -1,15 +1,20 @@
 from .ArgumentMarshaler import ArgumentMarshaler
-from ..ArgsException import ArgsException
+from ArgsException import ArgsException
 
 class IntegerArgumentMarshaler(ArgumentMarshaler):
 
-    intValue = 0
+    def __init__(self):
+        self.intValue = 0
 
-    def set(currentArgument: str):
+    def set(self, argIterator) -> None:
+        parametr = None
         try:
-            self.intValue = int(currentArgument)
-        except ValueError as e:
-            raise ArgsException()
+            parametr = next(argIterator)
+            self.intValue = int(parametr)
+        except StopIteration:
+            raise ArgsException(ArgsException.ErrorCode.MISSING_INTEGER, None, parametr)
+        except ValueError:
+            raise ArgsException(ArgsException.ErrorCode.INVALID_INTEGER, None, parametr)
 
-    def get() -> int:
-        return intValue
+    def get(self) -> int:
+        return self.intValue
