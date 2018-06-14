@@ -71,7 +71,9 @@ class ArgsTest(unittest.TestCase):
         self.assertEqual(1, args.cardinality())
         self.assertTrue(args.has('x'))
         self.assertEqual("param", args.getString("x"))
-
+    '''
+    raise Exception
+    '''
     def testMissingStringArgument(self):
         try:
             args = Args("x*", ["-x"])
@@ -91,7 +93,9 @@ class ArgsTest(unittest.TestCase):
         self.assertEqual(1, args.cardinality())
         self.assertTrue(args.has('x'))
         self.assertEqual(42, args.getInt('x'))
-
+    '''
+    raise Exception
+    '''
     def testInvalidInteger(self):
         try:
             Args("x#", ["-x", "Forty two"])
@@ -100,7 +104,9 @@ class ArgsTest(unittest.TestCase):
             self.assertEqual(ArgsException.ErrorCode.INVALID_INTEGER, e.getErrorCode())
             self.assertEqual("x", e.getErrorArgumentId())
             self.assertEqual("Forty two", e.getErrorParameter())
-
+    '''
+    raise Exception
+    '''
     def testMissingInteger(self):
         try:
             Args("x#", ["-x"])
@@ -114,14 +120,18 @@ class ArgsTest(unittest.TestCase):
         self.assertEqual(1, args.cardinality())
         self.assertTrue(args.has('x'))
         self.assertEqual(42.3, args.getDouble("x"))
-
+    '''
+    raise Exception
+    '''
     def testInvalidDouble(self):
         try:
             Args("x##", ["-x", "Forty two"])
             self.fail("Args constructor should have thrown exception")
         except ArgsException as e:
             self.assertEqual(ArgsException.ErrorCode.INVALID_DOUBLE, e.getErrorCode())
-
+    '''
+    raise Exception
+    '''
     def testMissingDouble(self):
         try:
             Args("x##", ["-x"])

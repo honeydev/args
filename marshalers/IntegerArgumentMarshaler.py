@@ -5,7 +5,9 @@ class IntegerArgumentMarshaler(ArgumentMarshaler):
 
     def __init__(self):
         self.intValue = 0
-
+    '''
+    raise ArgsException
+    '''
     def set(self, argIterator) -> None:
         parametr = None
         try:

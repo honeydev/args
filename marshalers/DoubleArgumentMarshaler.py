@@ -5,7 +5,9 @@ class DoubleArgumentMarshaler(ArgumentMarshaler):
     
     def __init__(self):
         self.doubleValue = 0
-
+    '''
+    raise ArgsException
+    '''
     def set(self, argIterator) -> None:
         parametr = None
         try:

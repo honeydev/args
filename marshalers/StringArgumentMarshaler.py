@@ -5,7 +5,9 @@ class StringArgumentMarshaler(ArgumentMarshaler):
 
     def __init__(self):
         self.stringValue = ""
-
+    '''
+    raise ArgsException
+    '''
     def set(self, argIterator) -> None:
         try:
             self.stringValue = next(argIterator)
