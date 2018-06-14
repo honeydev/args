@@ -24,3 +24,10 @@ Example
     >>> args.getString('x')
     'stringParam'
 ```
+
+Run tests:
+
+```bash
+    $ python -m unittest tests.ArgsTest
+    $ python -m unittest tests.ArgsExceptionTest
+```
