@@ -100,7 +100,6 @@ class Args:
             return False
 
         try:
-
             argumentMarshaler.set(self.currentArgument)
             return True
         except ArgsException as e:
