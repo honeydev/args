@@ -65,9 +65,6 @@ class Args:
         except StopIteration:
             pass
 
-        # for self.currentArgument in self.args:
-
-        #     self.__parseArgument(self.currentArgument)
     '''
     raise ArgsException
     '''
